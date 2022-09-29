@@ -2,7 +2,6 @@ body {
     background-color: bisque;
     color: black;
     font-weight: bolder;
-    overflow: hidden;
 }
 
 em {
@@ -13,19 +12,12 @@ em {
     border: none;
 }
     
+em:hover {
+    font-size: 4.05em;
+}
 tr {
     display: flex;
 }
-
-
-/* em:hover {
-    background-color: white;
-
-}
-
-.chess-btn:hover {
-    background-color: purple;
-} */
 
 td:hover {
     z-index: 999;

@@ -121,6 +121,8 @@ document.addEventListener('click', function (e) {
 
     if (e.target.style.backgroundColor == "red") {
         movePiece(e);
+    } else if(elemClass.indexOf("chess-btn") != -1) {
+        resetColors();
     }
 
 });
