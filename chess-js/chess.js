@@ -108,6 +108,15 @@ document.addEventListener('click', function (e) {
         resetColors();
         localStorage.setItem("lastPiece", elemClass);
         showBishopMoves(elemClass);
+    } else if (elemClass.indexOf("fa-chess-queen") != -1) {
+        resetColors();
+        localStorage.setItem("lastPiece", elemClass);
+        showBishopMoves(elemClass);
+        showRookMoves(elemClass);
+    } else if (elemClass.indexOf("fa-chess-king") != -1) {
+        resetColors();
+        localStorage.setItem("lastPiece", elemClass);
+        showKingMoves(elemClass);
     }
 
     if (e.target.style.backgroundColor == "red") {
@@ -118,36 +127,43 @@ document.addEventListener('click', function (e) {
 
 function showPawnMoves(elemClass) {
     position = parseInt(elemClass.substr(-2, 2).trim());
-    if (elemClass.indexOf("black") != -1) {
-        if (document.getElementsByTagName("em")[position + 7].className.indexOf("white") != -1 && position % 8 != 0) {
-            document.getElementsByTagName("button")[position + 7].style.backgroundColor = "red";
+    if (position + 9 < 64) {
+        if (elemClass.indexOf("black") != -1) {
+            if (document.getElementsByTagName("em")[position + 7].className.indexOf("white") != -1 && position % 8 != 0) {
+                document.getElementsByTagName("button")[position + 7].style.backgroundColor = "red";
 
-        }
-        if ((document.getElementsByTagName("em")[position + 9].className.indexOf("white") != -1) && (position + 9) % 8 != 0) {
-            document.getElementsByTagName("button")[position + 9].style.backgroundColor = "red";
+            }
 
-        }
-        if (!(document.getElementsByTagName("em")[position + 8].className.indexOf("white") != -1)) {
-            document.getElementsByTagName("button")[position + 8].style.backgroundColor = "red";
-        } else {
-            return;
+            if ((document.getElementsByTagName("em")[position + 9].className.indexOf("white") != -1) && (position + 9) % 8 != 0) {
+                document.getElementsByTagName("button")[position + 9].style.backgroundColor = "red";
+
+            }
+
+            if (!(document.getElementsByTagName("em")[position + 8].className.indexOf("fa") != -1)) {
+                document.getElementsByTagName("button")[position + 8].style.backgroundColor = "red";
+            } else {
+                return;
+            }
         }
     }
-    if (elemClass.indexOf("white") != -1) {
-        if (document.getElementsByTagName("em")[position - 7].className.indexOf("black") != -1 && (position - 7) % 8 != 0) {
-            document.getElementsByTagName("button")[position - 7].style.backgroundColor = "red";
+    if (position - 9 > 0) {
+        if (elemClass.indexOf("white") != -1) {
+            if (document.getElementsByTagName("em")[position - 7].className.indexOf("black") != -1 && (position - 7) % 8 != 0) {
+                document.getElementsByTagName("button")[position - 7].style.backgroundColor = "red";
 
-        }
-        if (document.getElementsByTagName("em")[position - 9].className.indexOf("black") != -1 && position % 8 != 0) {
-            document.getElementsByTagName("button")[position - 9].style.backgroundColor = "red";
+            }
+            if (document.getElementsByTagName("em")[position - 9].className.indexOf("black") != -1 && position % 8 != 0) {
+                document.getElementsByTagName("button")[position - 9].style.backgroundColor = "red";
 
-        }
-        if (!(document.getElementsByTagName("em")[position - 8].className.indexOf("black") != -1)) {
-            document.getElementsByTagName("button")[position - 8].style.backgroundColor = "red";
-        } else {
-            return;
+            }
+            if (!(document.getElementsByTagName("em")[position - 8].className.indexOf("fa") != -1)) {
+                document.getElementsByTagName("button")[position - 8].style.backgroundColor = "red";
+            } else {
+                return;
+            }
         }
     }
+
     if (elemClass.indexOf("start") != -1) {
         if (elemClass.indexOf("black") != -1) {
             if (!(document.getElementsByTagName("em")[position + 16].className.indexOf("white") != -1)) {
@@ -216,7 +232,7 @@ function showRookMoves(elemClass) {
 
             if (document.getElementsByTagName("em")[i].className.indexOf("fa") == -1) {
                 document.getElementsByTagName("button")[i].style.backgroundColor = "red";
-            } else if (document.getElementsByTagName("em")[pi].className.indexOf(chessColor) != -1) {
+            } else if (document.getElementsByTagName("em")[i].className.indexOf(chessColor) != -1) {
                 document.getElementsByTagName("button")[i].style.backgroundColor = "red";
                 break;
             } else {
@@ -239,17 +255,20 @@ function showBishopMoves(elemClass) {
         chessColor = "white";
     }
     // North Direction
-    if(position % 8 < 6)
-    for (i = position - 7; i >= MIN_LENGTH; i -= 7) {
-        if (document.getElementsByTagName("em")[i].className.indexOf("fa") == -1) {
-            document.getElementsByTagName("button")[i].style.backgroundColor = "red";
-        } else if (document.getElementsByTagName("em")[i].className.indexOf(chessColor) != -1) {
-            document.getElementsByTagName("button")[i].style.backgroundColor = "red";
-            break;
-        } else {
-            break;
+    if (position % 8 < 6)
+        for (i = position - 7; i >= MIN_LENGTH; i -= 7) {
+            if (document.getElementsByTagName("em")[i].className.indexOf("fa") == -1) {
+                document.getElementsByTagName("button")[i].style.backgroundColor = "red";
+            } else if (document.getElementsByTagName("em")[i].className.indexOf(chessColor) != -1) {
+                document.getElementsByTagName("button")[i].style.backgroundColor = "red";
+                break;
+            } else {
+                break;
+            }
+            if (i % 8 == 7) {
+                break;
+            }
         }
-    }
     // East Direction
     if (position % 8 != 0) {
         for (i = position - 9; i >= MIN_LENGTH; i -= 9) {
@@ -268,29 +287,35 @@ function showBishopMoves(elemClass) {
     }
 
     // South Direction
-    for (i = position + 9; i <= MAX_LENGTH; i += 9) {
-        if (document.getElementsByTagName("em")[i].className.indexOf("fa") == -1) {
-            document.getElementsByTagName("button")[i].style.backgroundColor = "red";
-        } else if (document.getElementsByTagName("em")[i].className.indexOf(chessColor) != -1) {
-            document.getElementsByTagName("button")[i].style.backgroundColor = "red";
-            break;
-        } else {
-            break;
-        }
-    }
-    // West Direction
     if (position % 8 != 7) {
         for (i = position + 9; i <= MAX_LENGTH; i += 9) {
-
             if (document.getElementsByTagName("em")[i].className.indexOf("fa") == -1) {
                 document.getElementsByTagName("button")[i].style.backgroundColor = "red";
-            } else if (document.getElementsByTagName("em")[pi].className.indexOf(chessColor) != -1) {
+            } else if (document.getElementsByTagName("em")[i].className.indexOf(chessColor) != -1) {
                 document.getElementsByTagName("button")[i].style.backgroundColor = "red";
                 break;
             } else {
                 break;
             }
             if (i % 8 == 7) {
+                break;
+            }
+        }
+    }
+
+    // West Direction
+    if (position % 8 != 0) {
+        for (i = position + 7; i <= MAX_LENGTH; i += 7) {
+
+            if (document.getElementsByTagName("em")[i].className.indexOf("fa") == -1) {
+                document.getElementsByTagName("button")[i].style.backgroundColor = "red";
+            } else if (document.getElementsByTagName("em")[i].className.indexOf(chessColor) != -1) {
+                document.getElementsByTagName("button")[i].style.backgroundColor = "red";
+                break;
+            } else {
+                break;
+            }
+            if (i % 8 == 0) {
                 break;
             }
         }
@@ -390,4 +415,96 @@ function movePiece(e) {
 
     }
     resetColors();
+}
+
+function showKingMoves(elemClass) {
+    showPawnMoves(elemClass);
+    position = parseInt(elemClass.substr(-2, 2).trim());
+
+    if (elemClass.indexOf("black") != -1) {
+        if (position + 9 < 64) {
+            if (document.getElementsByTagName("em")[position + 7].className.indexOf("black") == -1 && position % 8 != 0) {
+                document.getElementsByTagName("button")[position + 7].style.backgroundColor = "red";
+
+            }
+
+
+            if ((document.getElementsByTagName("em")[position + 9].className.indexOf("black") == -1) && (position + 9) % 8 != 0) {
+                document.getElementsByTagName("button")[position + 9].style.backgroundColor = "red";
+
+            }
+
+            if (!(document.getElementsByTagName("em")[position + 8].className.indexOf("black") != -1)) {
+                document.getElementsByTagName("button")[position + 8].style.backgroundColor = "red";
+            }
+        }
+        if (position - 9 > 0) {
+            if ((document.getElementsByTagName("em")[position - 7].className.indexOf("black") == -1) && (position - 7) % 8 != 0) {
+                document.getElementsByTagName("button")[position - 7].style.backgroundColor = "red";
+            }
+            if ((document.getElementsByTagName("em")[position - 8].className.indexOf("black") == -1) && (position - 8) > 0) {
+                document.getElementsByTagName("button")[position - 8].style.backgroundColor = "red";
+            }
+            if ((document.getElementsByTagName("em")[position - 9].className.indexOf("black") == -1) && (position) % 8 != 0) {
+                document.getElementsByTagName("button")[position - 9].style.backgroundColor = "red";
+            }
+        }
+        if(position + 1 < 64) {
+            if ((document.getElementsByTagName("em")[position + 1].className.indexOf("black") == -1) && (position + 1) % 8 != 0) {
+            document.getElementsByTagName("button")[position + 1].style.backgroundColor = "red";
+        }
+        }
+        if(position - 1 > 0) {
+             if ((document.getElementsByTagName("em")[position - 1].className.indexOf("black") == -1) && (position) % 8 != 0) {
+            document.getElementsByTagName("button")[position - 1].style.backgroundColor = "red";
+        }
+        }
+       
+
+    }
+
+    if (elemClass.indexOf("white") != -1) {
+        if (position - 9 > 0) {
+            console.log('hey');
+            if (document.getElementsByTagName("em")[position - 7].className.indexOf("white") == -1 && (position - 7) % 8 != 0) {
+                document.getElementsByTagName("button")[position - 7].style.backgroundColor = "red";
+
+            }
+            if (document.getElementsByTagName("em")[position - 9].className.indexOf("white") == -1 && position % 8 != 0) {
+                document.getElementsByTagName("button")[position - 9].style.backgroundColor = "red";
+
+            }
+            if (!(document.getElementsByTagName("em")[position - 8].className.indexOf("white") != -1)) {
+                document.getElementsByTagName("button")[position - 8].style.backgroundColor = "red";
+            }
+        }
+        if(position + 1 < 64) {
+            if ((document.getElementsByTagName("em")[position + 1].className.indexOf("white") == -1) && (position + 1) % 8 != 0) {
+            document.getElementsByTagName("button")[position + 1].style.backgroundColor = "red";
+        }
+        }
+        if(position - 1 > 0) {
+             if ((document.getElementsByTagName("em")[position - 1].className.indexOf("white") == -1) && (position) % 8 != 0) {
+            document.getElementsByTagName("button")[position - 1].style.backgroundColor = "red";
+        }
+        }
+        if (position + 9 < 64) {
+            if (document.getElementsByTagName("em")[position + 7].className.indexOf("white") == -1 && position % 8 != 0) {
+                document.getElementsByTagName("button")[position + 7].style.backgroundColor = "red";
+
+            }
+
+
+            if ((document.getElementsByTagName("em")[position + 9].className.indexOf("white") == -1) && (position + 9) % 8 != 0) {
+                document.getElementsByTagName("button")[position + 9].style.backgroundColor = "red";
+
+            }
+
+            if (!(document.getElementsByTagName("em")[position + 8].className.indexOf("white") != -1)) {
+                document.getElementsByTagName("button")[position + 8].style.backgroundColor = "red";
+            }
+        }
+    }
+
+
 }
