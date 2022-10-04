@@ -1,0 +1,36 @@
+body {
+    background-color: wheat;
+    color: black;
+    font-weight: bolder;
+}
+
+em {
+    padding: 0;
+    margin: 0;
+    font-size: 4em;
+    width: 1em;
+    border: none;
+}
+    
+em:hover {
+    font-size: 4.05em;
+}
+tr {
+    display: flex;
+}
+
+td:hover {
+    z-index: 999;
+    background-color: white;
+}
+
+button {
+    padding: 0;
+    margin: 0;
+    width: 5em;
+    height: 5em;
+}
+
+/* img:hover {
+    background-color: pink;
+} */
